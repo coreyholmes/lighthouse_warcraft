@@ -1,11 +1,47 @@
-class Barracks
-  attr_reader :gold, :food
+class Barracks < Unit
+  attr_reader :gold, :food, :lumber
+  
 
   # Initialize Setup
   #-------------------------------
   def initialize
+    super(500, 0)
     @gold = 1000
     @food = 80
+    @lumber = 500
+  end
+
+  # ==================================================
+  # Siege_engine
+  # ==================================================
+
+  # Cost
+  #-------------------------------
+  def siege_engine_cost
+    @gold -= 200
+    @food -= 3
+    @lumber -= 60
+  end
+
+  # Train
+  #-------------------------------
+  def train_siege_engine
+    if can_train_siege_engine?
+      siege_engine_cost
+      Siege_engine.new
+    else
+      nil
+    end
+  end
+
+  # Resources available?
+  #-------------------------------
+  def can_train_siege_engine?
+    if gold >= 200 && food >= 3 && lumber >= 60
+      true
+    else
+      false
+    end
   end
 
   # ==================================================
